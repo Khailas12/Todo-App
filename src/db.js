@@ -25,3 +25,14 @@ const connect = (callback) => {
             });
     }
 }
+
+
+const getPrimaryKey = (_id) => {
+    return ObjectID(_id);
+}
+
+const getDataBase = () => {
+    return state.db;
+}
+
+module.export = { getDataBase, connect, getPrimaryKey};
