@@ -8,14 +8,12 @@ const mongoOptions = { useNewUrlParser : true };
 const state = { db : null };
 
 const connect = (callback) => {
-    if(state.db) {      // if db connection is active
+    if (state.db) {      // if db connection is active
         callback(); 
     } 
     else {  // connects to mongodb if no db connction
-        MongoClient.connect(
-            url, mongoOptions,
-            (error, client) => {
-                if(error) {
+        MongoClient.connect(url, mongoOptions,(error, client) => {
+                if (error) {
                     callback(error);
                 }
                 else {
@@ -35,4 +33,4 @@ const getDataBase = () => {
     return state.db;
 }
 
-module.export = { getDataBase, connect, getPrimaryKey};
+module.exports = { getDataBase, connect, getPrimaryKey};
