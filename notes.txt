@@ -1,0 +1,10 @@
+inserting into mongodb in terminal
+
+type -> mongo
+
+use <app_name>
+use crud_mongodb
+
+db.<name_of_collection_in_app>.({todo: 'study'})
+db.todo.insert({todo: 'study'})
+

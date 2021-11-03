@@ -9,7 +9,7 @@ const collection = 'todo';
 // app.use(bodyParser.json());     // sending json data from client side to server side.
 
 app.get('/', (request, response) => {
-    response.sendFile(path.join(__dirname, 'index.html'));
+    response.sendFile(path.join(__dirname, './index.html'));
 });
 
 app.get('/gettodo', (request, response) => {
