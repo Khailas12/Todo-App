@@ -8,6 +8,21 @@ const collection = 'todo';
 
 // app.use(bodyParser.json());     // sending json data from client side to server side.
 
+db.connect((err) => {
+    if (err) {
+        console.log('Unable to connect to database');
+        process.exit(1);  // terminates the app 
+    }
+
+    // if able to connect to the db
+    else {
+        app.listen(3000, () => {
+            console.log('connected to db on port 3000');
+        });
+    }
+});
+
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './index.html'));
 });
@@ -25,12 +40,13 @@ app.get('/gettodo', (req, res) => {
 });
 
 
+// update
 app.put('/:id', (req, res) => {
     const todoID = req.params.id;
     console.log(todoID);
     const userInput = req.body;
 
-    db.getDB().collection(collection).findOneAndUpdate(
+    db.getDataBase().collection(collection).findOneAndUpdate(
         {_id: db.getPrimaryKey(todoID)}, {$set: {todo: userInput.todo}}, 
         {returnOriginal: false},
     (err, result) => {
@@ -42,19 +58,3 @@ app.put('/:id', (req, res) => {
         }
     });
 })
-
-
-
-db.connect((err) => {
-    if (err) {
-        console.log('Unable to connect to database');
-        process.exit(1);  // terminates the app 
-    }
-
-    // if able to connect to the db
-    else {
-        app.listen(3000, () => {
-            console.log('connected to db on port 3000');
-        });
-    }
-});
