@@ -23,6 +23,22 @@ db.connect((err) => {
 });
 
 
+// create
+app.post('/', (req, res) => {
+    const userinput = req.body;
+
+    db.getDataBase().collection(collection).insertOne(userinput,
+        (err, result) => {
+            if (err) {
+                console.log('error');
+            }
+            else {
+                res.json({result: result, document: result.ops[0]});
+            }
+        });
+});
+
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './index.html'));
 });
@@ -45,7 +61,7 @@ app.put('/:id', (req, res) => {
     const todoID = req.params.id;
     console.log(todoID);
     const userInput = req.body;
-
+    
     db.getDataBase().collection(collection).findOneAndUpdate(
         {_id: db.getPrimaryKey(todoID)}, {$set: {todo: userInput.todo}}, 
         {returnOriginal: false},

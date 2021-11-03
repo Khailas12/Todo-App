@@ -1,5 +1,5 @@
-const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
+const { MongoClient } = require('mongodb');
+const { ObjectID } = require('mongodb');
 const dbname = 'crud_mongodb';
 const url = 'mongodb://localhost:27017';
 const mongoOptions = {
