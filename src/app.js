@@ -43,6 +43,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './index.html'));
 });
 
+// read
 app.get('/gettodo', (req, res) => {
     db.getDataBase().collection(collection).find({}).toArray((err, documents) => {
         if (err) {
@@ -74,3 +75,19 @@ app.put('/:id', (req, res) => {
         }
     });
 })
+
+
+// delete
+app.delete('/:id', (req, res) => {
+    const todoID = req.params.id;
+
+    db.getDataBase().collection(collection).findOneAndDelete({_id: db.getPrimaryKey(todoID)}, 
+    (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.json(result);
+        }
+    });
+});
