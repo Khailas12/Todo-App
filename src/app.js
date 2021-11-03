@@ -8,21 +8,41 @@ const collection = 'todo';
 
 // app.use(bodyParser.json());     // sending json data from client side to server side.
 
-app.get('/', (request, response) => {
-    response.sendFile(path.join(__dirname, './index.html'));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './index.html'));
 });
 
-app.get('/gettodo', (request, response) => {
+app.get('/gettodo', (req, res) => {
     db.getDataBase().collection(collection).find({}).toArray((err, documents) => {
         if (err) {
             console.log(err);
         }
         else {
             console.log(documents);
-            response.json(documents);
+            res.json(documents);
         }
     });
 });
+
+
+app.put('/:id', (req, res) => {
+    const todoID = req.params.id;
+    console.log(todoID);
+    const userInput = req.body;
+
+    db.getDB().collection(collection).findOneAndUpdate(
+        {_id: db.getPrimaryKey(todoID)}, {$set: {todo: userInput.todo}}, 
+        {returnOriginal: false},
+    (err, result) => {
+        if (err) {
+            console.error('Error');
+        }
+        else { // sends data back if exists
+            res.json(result);
+        }
+    });
+})
+
 
 
 db.connect((err) => {
