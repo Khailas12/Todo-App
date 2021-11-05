@@ -82,6 +82,22 @@
         todoUserInput.val('');  // resets input section after click 
       }
 
+      // delete todo
+      const deleteTodo = (todo, listItemID, deleteID) => {
+        let deleteBtn = $(`#${deleteID}`);
+        deleteBtn.click(() => {
+          fetch(`/${todo.id}`, {
+            method: 'delete'
+          }).then((response) => {
+            return response.json();
+          }).then((data) => {
+            if (data.ok === 1) {
+              $(`#${listItemID}`).remove();
+            }
+          });
+        })
+      }
+
       // this builds unique ID's to the html elements
       const buildIDS = (todo) => {
         return {
@@ -93,7 +109,7 @@
       }
 
       const buildTemplate = (todo, ids) => {
-        return `<li class='list-group-item' id'${ids.listItemID}'>
+        return `<li class='list-group-item' id'${ids.listItemID}>
             <div class='row'>
               <div class='col-md-4' id='${ids.todoID}'>${todo.todo}</div>
               <div class='col-md-4'></div>
@@ -136,7 +152,7 @@
             let ids = buildIDS(data.document);
             display.append(buildTemplate(data.document, ids));
             //editTodo(data.document, ids.todoID, ids.editID);
-            //deleteTodo(data.documentm, ids.listItemID, ids.deleteID);
+            deleteTodo(data.documentm, ids.listItemID, ids.deleteID);
           }
           resetTodosInput();
         })
