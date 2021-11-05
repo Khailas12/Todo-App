@@ -22,6 +22,10 @@ db.connect((err) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 
 // create
 app.post('/', (req, res) => {
@@ -37,11 +41,7 @@ app.post('/', (req, res) => {
             }
         });
 });
-                
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
 
 // read
 app.get('/gettodo', (req, res) => {

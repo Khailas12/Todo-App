@@ -63,12 +63,23 @@
   <script>
 
     $(document).ready(() => {
-      const display = $('#display');
-      const form = $('#form');
-      const todoUserInput = $('#todoUserInput');
+      const display = $('#display');  // content
+      const form = $('#form');  // id of the form
+      const todoUserInput = $('#todoUserInput');  // input
+
+      const getTodos = () => {
+        fetch('/getTodos', {method: 'get'}
+        ).then((response) => {
+          return response.json();
+        }).then((data) => {
+          console.log(data);
+          displayTodos(data);
+        });
+      }
+      getTodos();
 
       const resetTodosInput = () => {
-        todoUserInput.val('');
+        todoUserInput.val('');  // resets input section after click 
       }
 
       // this builds unique ID's to the html elements
@@ -86,17 +97,21 @@
             <div class='row'>
               <div class='col-md-4' id='${ids.todoID}'>${todo.todo}</div>
               <div class='col-md-4'></div>
+
               <div class='col-md-4 text-right'>
                 <button type='button' class='btn btn-secondary' id='${ids.editID}'>
                   Edit
                 </button>
-                <button type='button' class='btn btn-secondary' id='${ids.deleteID}'>
+
+                <button type='button' class='btn btn-danger' id='${ids.deleteID}'>
                   Delete
                 </button>
+
               </div>
             </div>
           </li>`;
       }
+
       const displayTodos = (data) => {
         data.forEach((todo) => {
           let ids = buildIDS(todo);
